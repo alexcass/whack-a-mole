@@ -1,0 +1,29 @@
+{
+  "name": "whack-a-mole",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexcass/whack-a-mole.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexcass/whack-a-mole/issues"
+  },
+  "homepage": "https://github.com/alexcass/whack-a-mole#readme",
+  "browserslist": [
+    "last 2 major versions"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0"
+  }
+}
