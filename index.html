@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Play Whack-a-Mole!</title>
+    <style>
+      @font-face {
+        font-family: "comic_zine_otregular";
+        src: url("./assets/comic_zine_ot-webfont.eot");
+        src: url("./assets/comic_zine_ot-webfont.eot?#iefix")
+            format("embedded-opentype"),
+          url("./assets/comic_zine_ot-webfont.woff2") format("woff2"),
+          url("./assets/comic_zine_ot-webfont.woff") format("woff"),
+          url("./assets/comic_zine_ot-webfont.ttf") format("truetype"),
+          url("./assets/comic_zine_ot-webfont.svg#comic_zine_otregular")
+            format("svg");
+        font-weight: normal;
+        font-style: normal;
+      }
+      body {
+        font-family: "comic_zine_otregular";
+        margin: 0;
+        background: url("./assets/grass.png");
+      }
+      #controls > * {
+        margin-top: 10px;
+      }
+      #control-ribbon,
+      h1 {
+        text-align: center;
+      }
+      #control-ribbon {
+        font-size: 24px;
+      }
+      h1 {
+        font-size: 55px;
+        color: darkblue;
+        font-weight: unset;
+        margin: 20px 0;
+      }
+      #game-score span:first-child,
+      #game-time span:first-child {
+        margin-right: 10px;
+        color: darkblue;
+      }
+      #mole-holes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      .hole {
+        width: 183px;
+        height: 110px;
+        overflow: hidden;
+        margin: 50px;
+        position: relative;
+      }
+      .hole:after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        height: 43px;
+        width: 183px;
+      }
+      .hole:nth-child(2n + 1) {
+        background: url("./assets/hole_1.png") bottom center no-repeat;
+      }
+      .hole:nth-child(2n + 1):after {
+        background: url(./assets/hole_1_overlay.png);
+      }
+      .hole:nth-child(2n) {
+        background: url("./assets/hole_2.png") bottom center no-repeat;
+      }
+      .hole:nth-child(2n):after {
+        background: url(./assets/hole_2_overlay.png);
+      }
+      .mole {
+        width: 145px;
+        height: 145px;
+        position: absolute;
+        top: 110px;
+        background: url("./assets/mole_down.png");
+        left: calc((183px - 145px) / 2);
+        transition: top 1s ease-out;
+      }
+      .active .mole {
+        top: 5px;
+      }
+      .mole.down {
+        background: url("./assets/mole_down.png");
+      }
+      .mole.transition {
+        background: url("./assets/mole_transition.png");
+      }
+      .mole.up {
+        background: url("./assets/mole_up.png");
+      }
+    </style>
+  </head>
+  <body>
+    <div id="board">
+      <h1>Play Whack-a-Mole!</h1>
+      <div id="control-ribbon">
+        <div id="game-score"><span>Score</span><span>0</span></div>
+        <div id="game-time"><span>Time Left</span>:<span>30</span></div>
+        <div id="controls">
+          <button id="start-btn">start</button>
+          <button id="reset-btn">reset</button>
+        </div>
+      </div>
+      <div id="mole-holes">
+        <div class="hole">
+          <div class="mole"></div>
+        </div>
+        <div class="hole active">
+          <div class="mole down"></div>
+        </div>
+        <div class="hole active">
+          <div class="mole transition"></div>
+        </div>
+        <div class="hole active">
+          <div class="mole up"></div>
+        </div>
+        <div class="hole active">
+          <div class="mole whacked"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./src/app.js"></script>
+  </body>
+</html>
