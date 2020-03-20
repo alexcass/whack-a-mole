@@ -4,7 +4,10 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d dist"
+    "root": "babel index.html --copy-files -d dist",
+    "assets": "babel assets --copy-files -d dist/assets",
+    "build": "babel src -d dist --copy-files && yarn assets && yarn root",
+    "start": "yarn build && yarn http-server ./dist -o"
   },
   "repository": {
     "type": "git",
@@ -24,6 +27,7 @@
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0"
+    "eslint": "^6.8.0",
+    "http-server": "^0.12.1"
   }
 }

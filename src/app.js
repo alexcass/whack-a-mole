@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const renderHoles = () => {
-  const isMobile = window.matchMedia('(max-width:420px)').matches;
+  const isMobile = window.matchMedia("(max-width:420px)").matches;
   const reactions = isMobile ? hitReactions.slice(3) : hitReactions;
   const holeContent = reactions
     .map(
@@ -51,57 +51,31 @@ const renderHoles = () => {
 };
 
 const showMole = id => {
-  const totalTime = Math.floor(Math.random() * (1200 - 400)) + 400;  
-  
-  holes[id].classList.toggle("active");
-  setTimeout(() => holes[id].classList.toggle("active"), totalTime); 
+  const totalTime = Math.floor(Math.random() * (1200 - 400)) + 400;
 
-  setTimeout(() => moles[id].classList.toggle("up"), 300); 
-  setTimeout(() => moles[id].classList.toggle("up"), totalTime + 300); 
+  holes[id].classList.toggle("active");
+  setTimeout(() => holes[id].classList.toggle("active"), totalTime);
+
+  setTimeout(() => moles[id].classList.toggle("up"), 300);
+  setTimeout(() => moles[id].classList.toggle("up"), totalTime + 300);
 };
 
 const chooseMole = () => Math.floor(Math.random() * Math.floor(9));
 
-const reset = (e, gameOver) => {
-  clearInterval(timeInterval);
-  clearInterval(moleInterval);
-  startBtn.classList.remove('hide');
-  pauseBtn.classList.add('hide');  
-
-  time = 30;
-
-if (!gameOver) {
-  score = 0;
-  timer.textContent = time;
-  scoreBoard.textContent = score;
-}
-
-  [...holes].forEach(mole => mole.removeEventListener("click", onWhack));
-};
-
-const pause = () => {
-  clearInterval(timeInterval);
-  clearInterval(moleInterval);
-  startBtn.classList.remove('hide');
-  pauseBtn.classList.add('hide');
-
-  [...holes].forEach(mole => mole.removeEventListener("click", onWhack));
-};
-
 const start = () => {
-  startBtn.classList.add('hide');
-  pauseBtn.classList.remove('hide');
+  startBtn.classList.add("hide");
+  pauseBtn.classList.remove("hide");
 
   timeInterval = setInterval(() => {
     if (time > 0) {
       time--;
-      timer.textContent = `0${time}`.slice(-2);;
+      timer.textContent = `0${time}`.slice(-2);
     } else {
       reset(null, true);
     }
   }, 1000);
 
-  moleInterval = setInterval(() => {    
+  moleInterval = setInterval(() => {
     if (time > 0) {
       activeMole = chooseMole();
       showMole(activeMole);
@@ -111,15 +85,41 @@ const start = () => {
   [...holes].forEach(hole => hole.addEventListener("click", onWhack));
 };
 
-const showReaction = moleID => {
-  const mole = moles[moleID];    
+const reset = (e, gameOver) => {
+  clearInterval(timeInterval);
+  clearInterval(moleInterval);
+  startBtn.classList.remove("hide");
+  pauseBtn.classList.add("hide");
 
-  mole.classList.toggle('whacked');
+  time = 30;
+
+  if (!gameOver) {
+    score = 0;
+    timer.textContent = time;
+    scoreBoard.textContent = score;
+  }
+
+  [...holes].forEach(mole => mole.removeEventListener("click", onWhack));
+};
+
+const pause = () => {
+  clearInterval(timeInterval);
+  clearInterval(moleInterval);
+  startBtn.classList.remove("hide");
+  pauseBtn.classList.add("hide");
+
+  [...holes].forEach(mole => mole.removeEventListener("click", onWhack));
+};
+
+const showReaction = moleID => {
+  const mole = moles[moleID];
+
+  mole.classList.toggle("whacked");
   setTimeout(() => mole.classList.toggle("whacked"), 1000);
 };
 
 const onWhack = e => {
-  const moleId = parseInt(e.target.dataset.id);    
+  const moleId = parseInt(e.target.dataset.id);
 
   if (activeMole === moleId) {
     showReaction(moleId);
@@ -129,6 +129,6 @@ const onWhack = e => {
 
 const incrementScore = () => {
   score++;
-  
+
   scoreBoard.textContent = score;
 };

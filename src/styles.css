@@ -1,0 +1,144 @@
+/* todo: use css preprocessor */
+@font-face {
+  font-family: "comic_zine_otregular";
+  src: url("./assets/comic_zine_ot-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: "comic_zine_otregular";
+  margin: 0;
+  background: url("./assets/grass.png");
+}
+#controls > * {
+  margin-top: 10px;
+}
+#control-ribbon,
+h1 {
+  text-align: center;
+}
+#control-ribbon {
+  font-size: 30px;
+}
+h1 {
+  font-size: 55px;
+  color: darkblue;
+  font-weight: unset;
+  margin: 20px 0;
+}
+#game-score span:first-child,
+#game-time span:first-child {
+  margin-right: 10px;
+  color: darkblue;
+  font-size: 24px;
+}
+#mole-holes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: auto;
+}
+.hole {
+  width: 183px;
+  height: 110px;
+  overflow: hidden;
+  margin: 25px;
+  position: relative;
+}
+.hole:after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  height: 43px;
+  width: 183px;
+}
+.hole:nth-child(2n + 1) {
+  background: url("./assets/hole_1.png") bottom center no-repeat;
+  background-size: contain;
+}
+.hole:nth-child(2n + 1):after {
+  background: url("./assets/hole_1_overlay.png");
+  background-size: contain;
+}
+.hole:nth-child(2n) {
+  background: url("./assets/hole_2.png") bottom center no-repeat;
+  background-size: contain;
+}
+.hole:nth-child(2n):after {
+  background: url("./assets/hole_2_overlay.png");
+  background-size: contain;
+}
+.mole {
+  width: 145px;
+  height: 145px;
+  position: absolute;
+  top: 110px;
+  left: calc((183px - 145px) / 2);
+  transition: top 0.5s ease-out;
+  cursor: pointer;
+  font-size: 40px;
+  background-size: contain;
+}
+.active .mole {
+  top: 5px;
+}
+.mole,
+.mole.whacked {
+  background: url("./assets/mole_eyes_closed.png");
+  background-size: contain;
+}
+.mole.up {
+  background: url("./assets/mole_eyes_open.png");
+  background-size: contain;
+}
+.whacked:before {
+  content: attr(data-reaction);
+  position: absolute;
+  top: -70px;
+  color: #ffc107;
+  padding: 20px;
+  border-radius: 31px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.hide {
+  display: none;
+}
+button {
+  background: #232020;
+  border: 3px solid #3f51b5;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.70);
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 32px;
+  }
+  .hole {
+    width: 92px;
+    height: 55px;
+    margin: 10px;
+  }
+  .hole:after {
+    height: 22px;
+    width: 92px;
+  }
+  .mole {
+    width: 73px;
+    height: 73px;
+    top: 55px;
+    left: calc((92px - 73px) / 2);
+    font-size: 28px;
+  }
+  .whacked:before {
+    top: -5px;
+    padding: 0;
+  }
+}
