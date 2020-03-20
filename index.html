@@ -6,16 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Play Whack-a-Mole!</title>
     <style>
+      /* todo: use css preprocessor */
       @font-face {
         font-family: "comic_zine_otregular";
-        src: url("./assets/comic_zine_ot-webfont.eot");
-        src: url("./assets/comic_zine_ot-webfont.eot?#iefix")
-            format("embedded-opentype"),
-          url("./assets/comic_zine_ot-webfont.woff2") format("woff2"),
-          url("./assets/comic_zine_ot-webfont.woff") format("woff"),
-          url("./assets/comic_zine_ot-webfont.ttf") format("truetype"),
-          url("./assets/comic_zine_ot-webfont.svg#comic_zine_otregular")
-            format("svg");
+        src: url("./assets/comic_zine_ot-webfont.woff") format("woff");
         font-weight: normal;
         font-style: normal;
       }
@@ -32,7 +26,7 @@
         text-align: center;
       }
       #control-ribbon {
-        font-size: 24px;
+        font-size: 30px;
       }
       h1 {
         font-size: 55px;
@@ -44,17 +38,20 @@
       #game-time span:first-child {
         margin-right: 10px;
         color: darkblue;
+        font-size: 24px;
       }
       #mole-holes {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
+        max-width: 1200px;
+        margin: auto;
       }
       .hole {
         width: 183px;
         height: 110px;
         overflow: hidden;
-        margin: 50px;
+        margin: 25px;
         position: relative;
       }
       .hole:after {
@@ -66,68 +63,107 @@
       }
       .hole:nth-child(2n + 1) {
         background: url("./assets/hole_1.png") bottom center no-repeat;
+        background-size: contain;
       }
       .hole:nth-child(2n + 1):after {
-        background: url(./assets/hole_1_overlay.png);
+        background: url("./assets/hole_1_overlay.png");
+        background-size: contain;
       }
       .hole:nth-child(2n) {
         background: url("./assets/hole_2.png") bottom center no-repeat;
+        background-size: contain;
       }
       .hole:nth-child(2n):after {
-        background: url(./assets/hole_2_overlay.png);
+        background: url("./assets/hole_2_overlay.png");
+        background-size: contain;
       }
       .mole {
         width: 145px;
         height: 145px;
         position: absolute;
         top: 110px;
-        background: url("./assets/mole_down.png");
         left: calc((183px - 145px) / 2);
-        transition: top 1s ease-out;
+        transition: top 0.5s ease-out;
+        cursor: pointer;
+        font-size: 40px;
+        background-size: contain;
       }
       .active .mole {
         top: 5px;
       }
-      .mole.down {
-        background: url("./assets/mole_down.png");
-      }
-      .mole.transition {
-        background: url("./assets/mole_transition.png");
+      .mole,
+      .mole.whacked {
+        background: url("./assets/mole_eyes_closed.png");
+        background-size: contain;
       }
       .mole.up {
-        background: url("./assets/mole_up.png");
+        background: url("./assets/mole_eyes_open.png");
+        background-size: contain;
+      }
+      .whacked:before {
+        content: attr(data-reaction);
+        position: absolute;
+        top: -70px;
+        color: #ffc107;
+        padding: 20px;
+        border-radius: 31px;
+        left: 0;
+        right: 0;
+        text-align: center;
+      }
+      .hide {
+        display: none;
+      }
+      button {
+        background: #232020;
+        border: 3px solid #3f51b5;
+        font-family: inherit;
+        color: #ffffffb8;
+        border-radius: 10px;
+        font-size: 20px;
+        padding: 6px 10px;
+        cursor: pointer;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      }
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 32px;
+        }
+        .hole {
+          width: 92px;
+          height: 55px;
+          margin: 10px;
+        }
+        .hole:after {
+          height: 22px;
+          width: 92px;
+        }
+        .mole {
+          width: 73px;
+          height: 73px;
+          top: 55px;
+          left: calc((92px - 73px) / 2);
+          font-size: 28px;
+        }
+        .whacked:before {
+          top: -5px;
+          padding: 0;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="board">
-      <h1>Play Whack-a-Mole!</h1>
-      <div id="control-ribbon">
-        <div id="game-score"><span>Score</span><span>0</span></div>
-        <div id="game-time"><span>Time Left</span>:<span>30</span></div>
-        <div id="controls">
-          <button id="start-btn">start</button>
-          <button id="reset-btn">reset</button>
-        </div>
-      </div>
-      <div id="mole-holes">
-        <div class="hole">
-          <div class="mole"></div>
-        </div>
-        <div class="hole active">
-          <div class="mole down"></div>
-        </div>
-        <div class="hole active">
-          <div class="mole transition"></div>
-        </div>
-        <div class="hole active">
-          <div class="mole up"></div>
-        </div>
-        <div class="hole active">
-          <div class="mole whacked"></div>
-        </div>
+    <h1>Play Whack-a-Mole!</h1>
+    <div id="control-ribbon">
+      <span id="game-score"><span>Score</span><span>0</span></span>
+      <span id="game-time"><span>Time Left</span>:<span>30</span></span>
+      <div id="controls">
+        <button id="start-btn">start</button>
+        <button id="pause-btn" class="hide">pause</button>
+        <button id="reset-btn">reset</button>
       </div>
     </div>
+    <div id="mole-holes"></div>
     <script src="./src/app.js"></script>
   </body>
 </html>
