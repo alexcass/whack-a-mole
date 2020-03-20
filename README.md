@@ -1,6 +1,7 @@
 # WHACK-A-MOLE
 
 ## Play here:
+https://alexcass.github.io/whack-a-mole/
 
 ## To run locally:
 1) [node](https://nodejs.org/en/download/) and [yarn](https://classic.yarnpkg.com/en/docs/install) should be installed
